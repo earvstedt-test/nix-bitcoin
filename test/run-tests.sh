@@ -94,7 +94,7 @@ vmTestNixExpr() {
   cat <<EOF
     (import "$scriptDir/test.nix" {}).overrideAttrs (old: rec {
       buildCommand = ''
-        export QEMU_OPTS="-smp $numCPUs -m $memoryMiB -cpu -vmx"
+        export QEMU_OPTS="-smp $numCPUs -m $memoryMiB -cpu host,-vmx"
         echo "VM stats: CPUs: $numCPUs, memory: $memoryMiB MiB"
       '' + old.buildCommand;
     })
