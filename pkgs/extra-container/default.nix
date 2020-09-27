@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   name = "extra-container-${version}";
-  version = "0.3";
+  version = "0.4";
 
   src = builtins.fetchTarball {
-    url = "https://github.com/erikarvstedt/extra-container/archive/6cced2c26212cc1c8cc7cac3547660642eb87e71.tar.gz";
-    sha256 = "0qr41mma2iwxckdhqfabw3vjcbp2ffvshnc3k11kwriwj14b766v";
+    url = "https://github.com/erikarvstedt/extra-container/archive/${version}.tar.gz";
+    sha256 = "0bpwmmpxfys5vjpc5wr8kycsmi1s4719cw9vyxbi1nyz9n3k4bim";
   };
 
   buildCommand = ''
