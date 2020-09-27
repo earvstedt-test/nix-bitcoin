@@ -1,19 +1,30 @@
-{ stdenv, lib }:
+{ stdenv, lib, nixos-container, openssh
+, glibcLocales
+}:
 
 stdenv.mkDerivation rec {
   name = "extra-container-${version}";
-  version = "0.3";
+  version = "0.5-pre";
 
   src = builtins.fetchTarball {
-    url = "https://github.com/erikarvstedt/extra-container/archive/6cced2c26212cc1c8cc7cac3547660642eb87e71.tar.gz";
-    sha256 = "0qr41mma2iwxckdhqfabw3vjcbp2ffvshnc3k11kwriwj14b766v";
+    url = "https://github.com/erikarvstedt/extra-container/archive/${version}.tar.gz";
+    sha256 = "0lqdrd8pvsb5jf7v124n8r5dv9dikkqbzy8082wsdrgymn8s577b";
   };
 
   buildCommand = ''
     install -D $src/extra-container $out/bin/extra-container
     patchShebangs $out/bin
-    install $src/eval-config.nix -Dt $out/src
-    sed -i "s|evalConfig=.*|evalConfig=$out/src/eval-config.nix|" $out/bin/extra-container
+    share=$out/share/extra-container
+    install $src/eval-config.nix -Dt $share
+
+    # Use existing PATH for systemctl and machinectl (for nixos-container)
+    scriptPath="export PATH=${lib.makeBinPath [ nixos-container openssh ]}:\$PATH"
+
+    sed -i \
+      -e "s|evalConfig=.*|evalConfig=$share/eval-config.nix|" \
+      -e "s|LOCALE_ARCHIVE=.*|LOCALE_ARCHIVE=${glibcLocales}/lib/locale/locale-archive|" \
+      -e "2i$scriptPath" \
+      $out/bin/extra-container
   '';
 
   meta = with lib; {
