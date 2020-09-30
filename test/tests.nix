@@ -66,6 +66,7 @@ let testEnv = rec {
 
     default = scenarios.secureNode;
 
+    # All available basic services and tests
     full = {
       tests.security = true;
 
