@@ -36,7 +36,7 @@ let testEnv = rec {
       tests.electrs = cfg.electrs.enable;
 
       tests.liquidd = cfg.liquidd.enable;
-      services.liquidd.extraConfig = mkIf config.test.noConnections "noconnect=1";
+      services.liquidd.extraConfig = mkIf config.test.noConnections "connect=0";
 
       tests.btcpayserver = cfg.btcpayserver.enable;
       services.btcpayserver.lightningBackend = "lnd";
