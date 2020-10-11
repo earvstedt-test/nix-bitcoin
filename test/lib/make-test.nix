@@ -39,48 +39,13 @@ scenario: testConfig:
       ];
   };
 
-  container = { config, pkgs, lib, ... }: let
-    containerName = "nb-test"; # 11 char length limit
-    cfg = config.containers.${containerName}.config.test.container;
-    containerAddress = "${cfg.addressPrefix}.2";
-    hostAddress = "${cfg.addressPrefix}.1";
-  in {
-    containers.${containerName} = {
-      privateNetwork = true;
-      localAddress = containerAddress;
-      inherit hostAddress;
+  container = {
+    # The container name has a 11 char length limit
+    containers.nb-test = { config, ...}: {
       config = {
-        imports = [
-          testConfig
-        ];
-
-        # Always accept connections from the host system
-        networking.firewall = {
-          enable = true;
-          extraCommands = ''
-            iptables -w -A nixos-fw -s ${hostAddress} -j ACCEPT
-          '';
-        };
-
-        services.openssh.enable = true;
-        users.users.root = {
-          openssh.authorizedKeys.keyFiles = [ ./../../examples/ssh-keys/id-nb.pub ];
-        };
-
-        systemd.services.forward-to-localhost = lib.mkIf cfg.forwardToLocalhost {
-          wantedBy = [ "multi-user.target" ];
-          script = ''
-            ${pkgs.procps}/bin/sysctl -w net.ipv4.conf.all.route_localnet=1
-            ${pkgs.iptables}/bin/iptables -t nat -I PREROUTING -p tcp \
-              -d ${containerAddress} ! --dport 80 -j DNAT --to-destination 127.0.0.1
-          '';
-        };
+        extra = config.config.test.container;
+        config = testConfig;
       };
-    };
-    # Allow WAN access
-    systemd.services."container@${containerName}" = lib.mkIf cfg.enableWAN {
-      preStart = "${pkgs.iptables}/bin/iptables -w -t nat -A POSTROUTING -s ${containerAddress} -j MASQUERADE";
-      postStop = "${pkgs.iptables}/bin/iptables -w -t nat -D POSTROUTING -s ${containerAddress} -j MASQUERADE || true";
     };
   };
 }

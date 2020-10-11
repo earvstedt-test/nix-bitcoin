@@ -61,7 +61,7 @@ cd nix-bitcoin/test
 ./run-tests.sh debug
 print(succeed("systemctl status bitcoind"))
 
-# Run a node in a container
+# Run a node in a container. Requires systemd.
 ./run-tests.sh container
 c systemctl status bitcoind
 

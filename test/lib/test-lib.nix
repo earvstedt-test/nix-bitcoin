@@ -21,20 +21,12 @@ with lib;
       };
 
       container = {
-        enableWAN = mkEnableOption "container WAN access";
-        addressPrefix = mkOption {
-          type = types.str;
-          default = "10.225.255";
-          description = "The 24 bit prefix of the container addresses.";
-        };
-        forwardToLocalhost = mkOption {
-          type = types.bool;
-          default = false;
-          description = ''
-            Forward requests from the container's address to the container's localhost.
-            Useful to test internal services from outside the container.
-          '';
-        };
+        # Forwarded to extra-container. For descriptions, see
+        # https://github.com/erikarvstedt/extra-container/blob/master/eval-config.nix
+        addressPrefix = mkOption { default = "10.225.255"; };
+        enableWAN = mkOption { default = false; };
+        firewallAllowHost = mkOption { default = true; };
+        exposeLocalhost = mkOption { default = false; };
       };
     };
 
