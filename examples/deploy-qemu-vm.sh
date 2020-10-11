@@ -28,7 +28,7 @@ cleanup() {
 }
 trap "cleanup" EXIT
 
-identityFile=ssh-keys/id-nb
+identityFile=qemu-vm/id-vm
 chmod 0600 $identityFile
 
 echo "Building VM"
