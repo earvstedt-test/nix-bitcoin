@@ -31,7 +31,7 @@ scenario: testConfig:
         initData
         (builtins.readFile ./../tests.py)
         # Don't run tests in interactive mode.
-        # is_interactive is set in ./run-tests.sh
+        # is_interactive is set in ../run-tests.sh
         ''
           if not "is_interactive" in vars():
               run_tests()
