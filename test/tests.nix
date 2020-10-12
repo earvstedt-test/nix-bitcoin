@@ -16,6 +16,8 @@ let testEnv = rec {
     ];
 
     config = {
+      nix-bitcoin.configVersion = "0.0.17";
+
       tests.bitcoind = cfg.bitcoind.enable;
       services.bitcoind = {
         enable = true;

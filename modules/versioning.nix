@@ -6,14 +6,21 @@ let
 
   # Sorted by increasing version numbers
   changes = [
-    # None yet
-    # {
-    #   version = "0.1";
-    #   condition = config.services.foo.enabled;
-    #   message = ''
-    #     demo message
-    #   '';
-    # }
+    {
+      version = "0.0.18";
+      condition = config.services.lightning-loop.enable;
+      message = ''
+        The lightning-loop data dir location was changed.
+        To move it to the new location, run the following shell command on your nix-bitcoin node:
+        sudo mv ${config.services.lnd.dataDir}/.loop ${config.services.lightning-loop.dataDir}
+      '';
+    }
+    {
+      version = "0.1";
+      message = ''
+        dummy
+      '';
+    }
   ];
 
   incompatibleChanges = optionals
@@ -52,8 +59,8 @@ in
   };
 
   ## No config because there are no backwards incompatible releases yet
-  # config = {
-  #   # Force evaluation. An actual option value is never assigned
-  #   system.extraDependencies = optional (builtins.length incompatibleChanges > 0) (builtins.throw messagesStr);
-  # };
+  config = {
+    # Force evaluation. An actual option value is never assigned
+    system.extraDependencies = optional (builtins.length incompatibleChanges > 0) (builtins.throw messagesStr);
+  };
 }
