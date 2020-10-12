@@ -20,6 +20,7 @@
     ./backups.nix
     ./btcpayserver.nix
     ./joinmarket.nix
+    ./versioning.nix
   ];
 
   disabledModules = [ "services/networking/bitcoind.nix" ];
