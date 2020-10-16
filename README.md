@@ -39,7 +39,7 @@ shut down immediately. They leave no traces (outside of `/nix/store`) on the hos
 
 - [`./deploy-container.sh`](examples/deploy-container.sh) creates a [NixOS container](https://github.com/erikarvstedt/extra-container).\
   This is the fastest way to set up a node.\
-  Requires: [Nix](https://nixos.org/) and a systemd-based Linux distro
+  Requires: [Nix](https://nixos.org/), a systemd-based Linux distro and root privileges
 
 - [`./deploy-qemu-vm.sh`](examples/deploy-qemu-vm.sh) creates a QEMU VM.\
   Requires: [Nix](https://nixos.org/nix/)
@@ -61,7 +61,7 @@ cd nix-bitcoin/test
 ./run-tests.sh debug
 print(succeed("systemctl status bitcoind"))
 
-# Run a node in a container. Requires systemd.
+# Run a node in a container. Requires systemd and root privileges.
 ./run-tests.sh container
 c systemctl status bitcoind
 
