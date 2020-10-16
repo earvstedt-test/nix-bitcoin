@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
 
   src = builtins.fetchTarball {
     url = "https://github.com/erikarvstedt/extra-container/archive/${version}.tar.gz";
-    sha256 = "0lqdrd8pvsb5jf7v124n8r5dv9dikkqbzy8082wsdrgymn8s577b";
+    sha256 = "06fkqjp90jl5ni4gjk8m7gr90qdwll6iy3zs945zvqmva4ajl6p2";
   };
 
   buildCommand = ''
